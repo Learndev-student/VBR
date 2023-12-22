@@ -11,7 +11,7 @@ function sendResponse(type,message,data={}){
 		"message": message,
 		"data": data
 	}
-	return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
+	return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
 }
 
 //function for querying locations info
