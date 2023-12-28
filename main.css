@@ -1,0 +1,20 @@
+body{
+}
+
+#content{
+}
+
+.block{
+	display:grid;
+	grid-template-columns: repeat(3,1fr);
+}
+
+.room{
+	border-radius: 10px;
+	margin: 10px;
+	background:#ccc;
+	min-height: 100px;
+	padding-left: 20px;
+}
+.room h4{
+}
