@@ -1,7 +1,32 @@
 body{
+	background: #e7e7e7;
+	color: #2d298b;
+	font-family: sans-serif;
 }
 
 #content{
+}
+
+#box{
+	display: block;
+	position: absolute;
+	top:0px;
+	left:0px;
+	z-index: 10;
+	width: 101%;
+	height: 101%;
+	margin:-10px -5px -10px -5px;
+	background: #bbbbbbaa;
+}
+
+#popup{
+	display: block;
+	margin: 100px;
+	background: #f9f9f9;
+	z-index: 11;
+	min-height: 300px;
+	border-radius: 15px;
+	padding: 10px 15px 10px 15px;
 }
 
 .block{
@@ -13,8 +38,24 @@ body{
 	border-radius: 10px;
 	margin: 10px;
 	background:#ccc;
-	min-height: 100px;
-	padding-left: 20px;
+	max-height: 140px;
+	padding: 5px 15px 5px 15px;
+}
+.room:hover{
+	background:#bfbfbf;
+	color: #211e68;
 }
 .room h4{
+}
+
+.filled_room{
+	border-radius: 10px;
+	margin: 10px;
+	background: #dc8272;
+	color: #000;	
+	max-height: 140px;
+	padding:5px 15px 5px 15px;
+}
+.filled_room:hover{
+	background: #d76f5d;
 }

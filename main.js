@@ -68,10 +68,42 @@ const locations = {
 
 let rooms = {};
 let i = 0;
+
+function createRooms(){
+	document.getElementById("content").innerHTML = "";
+	for(let block in locations){
+		let ab = document.createElement("div");
+		let name = document.createElement("h3");
+		name.innerHTML = block;
+		document.getElementById("content").appendChild(name);
+		ab.className = "block";
+		locations[block].forEach(room=>ab.appendChild(createRoom(room)));
+		document.getElementById("content").appendChild(ab);
+	}
+}
+
+function displayInfo(e){
+	let box = document.createElement("div");
+	let popup =document.createElement("div");
+	popup.id = "popup";
+	box.id = "box";
+	box.appendChild(popup);
+	box.onclick = (ev) =>{
+		try{
+			document.body.removeChild(ev.target);
+			document.body.style['position'] = "initial";
+		}catch(E){}
+	}
+	popup.innerHTML = "<h4>"+((e.target.nodeName=="H4")?e.target:e.target.firstChild).innerHTML +"</h4><hr/>"+ ((e.target.nodeName=="H4")?e.target.parentElement:e.target).dataset.events;
+	document.body.style['position'] = "fixed";
+	document.body.appendChild(box);
+}
+
 function createRoom(name){
 	let room = document.createElement("div");
 	let title = document.createElement("h4");
 	room.className = "room";
+	room.dataset.events = "";
 	title.innerHTML = name;
 	rooms[name] = i;
 	room.appendChild(title);
@@ -89,8 +121,12 @@ function refresh(){
 
 function showData(E){
 	E.forEach(e=>{
-		let room = document.getElementsByClassName("room")[rooms[e.location]];
-		room.innerHTML += `${new Date(e.start).toLocaleString()} - ${new Date(e.end).toLocaleString()}`;
+		if(e.location in rooms){
+			let room = document.getElementsByClassName("room")[rooms[e.location]];
+			room.dataset.events += `<p>from ${new Date(e.start).toLocaleString()} to ${new Date(e.end).toLocaleString()}</p>`;
+			room.onclick =(ev)=> displayInfo(ev);
+			room.className = "filled_room";
+		}
 	});
 }
 
@@ -104,13 +140,5 @@ function sendRequest(r){
 }
 
 window.onload=()=>{
-	for(let block in locations){
-		let ab = document.createElement("div");
-		let name = document.createElement("h3");
-		name.innerHTML = block;
-		document.getElementById("content").appendChild(name);
-		ab.className = "block";
-		locations[block].forEach(room=>ab.appendChild(createRoom(room)));
-		document.getElementById("content").appendChild(ab);
-	}
+	createRooms();
 }
