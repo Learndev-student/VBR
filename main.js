@@ -140,5 +140,9 @@ function sendRequest(r){
 }
 
 window.onload=()=>{
+	let t = new Date();
+	document.getElementById("start").value = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}T${t.getHours()}:${t.getMinutes()}`;
+	document.getElementById("end").value = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}T${t.getHours()+3}:${t.getMinutes()}`;
 	createRooms();
+	refresh();
 }
