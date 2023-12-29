@@ -144,7 +144,6 @@ function showData(E){
 function sendRequest(r){
 	fetch(URL+r).then(response=>{
 		response.json().then(e=>{
-			console.log(e);
 			if(e.type=="data"){
 				createRooms();
 				showData(e.data);
@@ -156,7 +155,7 @@ function sendRequest(r){
 window.onload=()=>{
 	let sTime = new Date();
 	let eTime = new Date(sTime.getTime()+(3*60*60*1000));
-	document.getElementById("start").value = `${sTime.getFullYear()}-${sTime.getMonth()+1}-${sTime.getDate()}T${sTime.getHours()}:${sTime.getMinutes()}`;
-	document.getElementById("end").value = `${eTime.getFullYear()}-${eTime.getMonth()+1}-${eTime.getDate()}T${eTime.getHours()}:${eTime.getMinutes()}`;
+	document.getElementById("start").value = sTime.toISOString().slice(0,16); 
+	document.getElementById("end").value = eTime.toISOString().slice(0,16);
 	update();
 }
