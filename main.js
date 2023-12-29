@@ -87,15 +87,20 @@ function displayInfo(e){
 	let popup =document.createElement("div");
 	popup.id = "popup";
 	box.id = "box";
+	let offset_y = document.body.getBoundingClientRect().top-10;
+	console.log(offset_y);
+	popup.style['top'] = `${-offset_y}px`;
 	box.appendChild(popup);
 	box.onclick = (ev) =>{
 		try{
 			document.body.removeChild(ev.target);
-			document.body.style['position'] = "initial";
+			document.body.style['position'] = "static";
+			window.scrollTo(0,-offset_y);
 		}catch(E){}
 	}
 	popup.innerHTML = "<h4>"+((e.target.nodeName=="H4")?e.target:e.target.firstChild).innerHTML +"</h4><hr/>"+ ((e.target.nodeName=="H4")?e.target.parentElement:e.target).dataset.events;
 	document.body.style['position'] = "fixed";
+	document.body.style['top'] = offset_y+"px";
 	document.body.appendChild(box);
 }
 
@@ -103,7 +108,8 @@ function createRoom(name){
 	let room = document.createElement("div");
 	let title = document.createElement("h4");
 	room.className = "room";
-	room.dataset.events = "";
+	room.dataset.events = "<p>Available</p>";
+	room.onclick =(ev)=> displayInfo(ev);
 	title.innerHTML = name;
 	rooms[name] = i;
 	room.appendChild(title);
@@ -123,8 +129,7 @@ function showData(E){
 	E.forEach(e=>{
 		if(e.location in rooms){
 			let room = document.getElementsByClassName("room")[rooms[e.location]];
-			room.dataset.events += `<p>from ${new Date(e.start).toLocaleString()} to ${new Date(e.end).toLocaleString()}</p>`;
-			room.onclick =(ev)=> displayInfo(ev);
+			room.dataset.events += `<p><b>from</b> ${new Date(e.start).toLocaleString()} <b>to</b> ${new Date(e.end).toLocaleString()}</p>`;
 			room.className = "filled_room";
 		}
 	});
@@ -140,9 +145,10 @@ function sendRequest(r){
 }
 
 window.onload=()=>{
-	let t = new Date();
-	document.getElementById("start").value = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}T${t.getHours()}:${t.getMinutes()}`;
-	document.getElementById("end").value = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}T${t.getHours()+3}:${t.getMinutes()}`;
+	let sTime = new Date();
+	let eTime = new Date(sTime.getTime()+(3*60*60*1000));
+	document.getElementById("start").value = `${sTime.getFullYear()}-${sTime.getMonth()+1}-${sTime.getDate()}T${sTime.getHours()}:${sTime.getMinutes()}`;
+	document.getElementById("end").value = `${eTime.getFullYear()}-${eTime.getMonth()+1}-${eTime.getDate()}T${eTime.getHours()}:${eTime.getMinutes()}`;
 	createRooms();
 	refresh();
 }
