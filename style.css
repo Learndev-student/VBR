@@ -33,12 +33,15 @@ header span{
 	z-index: 10;
 	width: 101%;
 	height: 101%;
+	top: 0px;
+	left: 0px;
 	margin:-10px -5px -10px -5px;
 	background: #bbbbbbaa;
 }
 
 #popup{
 	display: block;
+	position: relative;
 	margin: 100px;
 	background: #f9f9f9;
 	z-index: 11;
