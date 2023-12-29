@@ -12,15 +12,17 @@ body{
 	height: 100%;
 }
 
-header p{
+header{
+	text-align: right;
+}
+
+#title{
 	text-align: center;
 	margin:10px;
 }
+
 header span{
 	font-size: 2em;
-}
-
-#content{
 }
 
 #content h3{
@@ -70,8 +72,6 @@ header span{
 	background:#bfbfbf;
 	color: #211e68;
 	box-shadow: -3px 1px 7px 0.25px grey;
-}
-.room h4{
 }
 
 .filled_room{

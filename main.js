@@ -66,11 +66,13 @@ const locations = {
 	]
 };
 
-let rooms = {};
-let i = 0;
+var rooms;
+var i;
 
 function createRooms(){
 	document.getElementById("content").innerHTML = "";
+	rooms = {};
+	i = 0;
 	for(let block in locations){
 		let ab = document.createElement("div");
 		let name = document.createElement("h3");
@@ -88,7 +90,6 @@ function displayInfo(e){
 	popup.id = "popup";
 	box.id = "box";
 	let offset_y = document.body.getBoundingClientRect().top-10;
-	console.log(offset_y);
 	popup.style['top'] = `${-offset_y}px`;
 	box.appendChild(popup);
 	box.onclick = (ev) =>{
@@ -98,7 +99,7 @@ function displayInfo(e){
 			window.scrollTo(0,-offset_y);
 		}catch(E){}
 	}
-	popup.innerHTML = "<h4>"+((e.target.nodeName=="H4")?e.target:e.target.firstChild).innerHTML +"</h4><hr/>"+ ((e.target.nodeName=="H4")?e.target.parentElement:e.target).dataset.events;
+	popup.innerHTML = "<h4>"+((e.target.nodeName=="H4")?e.target:e.target.firstChild).innerHTML +"</h4><hr/>"+((e.target.nodeName=="H4")?e.target.parentElement:e.target).dataset.events;
 	document.body.style['position'] = "fixed";
 	document.body.style['top'] = offset_y+"px";
 	document.body.appendChild(box);
@@ -116,12 +117,14 @@ function createRoom(name){
 	i++;
 	return room;
 }
-function refresh(){
+function update(){
 	let start = document.getElementById("start");
 	let end = document.getElementById("end");
 	let startTime = new Date(start.value).getTime();
 	let endTime = new Date(end.value).getTime();
 	let query = `?to=getInfo&start=${startTime}&end=${endTime}`;
+	document.getElementById("updateInfo").innerHTML = "Updating...";
+	document.getElementById("updateInfo").dataset.time = new Date().toLocaleString();
 	sendRequest(query);
 }
 
@@ -129,17 +132,23 @@ function showData(E){
 	E.forEach(e=>{
 		if(e.location in rooms){
 			let room = document.getElementsByClassName("room")[rooms[e.location]];
+			if(room.dataset.events=="<p>Available</p>") room.dataset.events = "<p>Not Available:</p>";
 			room.dataset.events += `<p><b>from</b> ${new Date(e.start).toLocaleString()} <b>to</b> ${new Date(e.end).toLocaleString()}</p>`;
 			room.className = "filled_room";
 		}
 	});
+	let u = document.getElementById("updateInfo").dataset.time;
+	document.getElementById("updateInfo").innerHTML = "Updated on "+u;
 }
 
 function sendRequest(r){
 	fetch(URL+r).then(response=>{
 		response.json().then(e=>{
 			console.log(e);
-			if(e.type=="data") showData(e.data);
+			if(e.type=="data"){
+				createRooms();
+				showData(e.data);
+			}
 		});
 	});
 }
@@ -149,6 +158,5 @@ window.onload=()=>{
 	let eTime = new Date(sTime.getTime()+(3*60*60*1000));
 	document.getElementById("start").value = `${sTime.getFullYear()}-${sTime.getMonth()+1}-${sTime.getDate()}T${sTime.getHours()}:${sTime.getMinutes()}`;
 	document.getElementById("end").value = `${eTime.getFullYear()}-${eTime.getMonth()+1}-${eTime.getDate()}T${eTime.getHours()}:${eTime.getMinutes()}`;
-	createRooms();
-	refresh();
+	update();
 }
