@@ -72,14 +72,14 @@ header span{
 	background:#dadada;
 	max-height: 140px;
 	padding: 5px 15px 5px 15px;
-	box-shadow: -2px 2px 10px 0.25px #8080807d;
+	box-shadow: -1px 2px 4px 0.25px #8080807d;
 }
 .room:hover{
 	border-width: 2.5px;
 	padding: 2.5px 12.5px 4.5px 14.5px;
 	background:#ccccccd6;
 	color: #211e68;
-	box-shadow: -3px 1px 7px 0.25px #8080805c;
+	box-shadow: -1px 1px 4px 0.25px #8080805c;
 }
 
 .filled_room{
@@ -97,6 +97,26 @@ header span{
 	border-width: 2.5px;
 	box-shadow: -2px 2px 7px 0.25px #8080805c;
 	padding: 2.5px 12.5px 4.5px 14.5px;
+}
+
+footer{
+	background: #111;
+	margin: 10px -10px -10px -10px;
+	padding: 25px;
+	text-align: center;
+}
+footer span{
+	margin-left: 3%;
+	margin-right: 3%;
+	color: #555;
+}
+footer a{
+	font-style: normal;
+	text-decoration: none;
+	color: #555;
+}
+footer a:hover{
+	text-decoration: underline;
 }
 
 @media (orientation:portrait){
