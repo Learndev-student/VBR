@@ -1,6 +1,5 @@
 # VBR
-View Booked Rooms for Metis Winter Project ❄️
+### View Booked Rooms for Metis Winter Project ❄️
 
-`appScripts` directory contains `test.gs` and `prod.js`
-    `test.gs` contains appScript for testing purpose.
-    `prod.gs` contains appScript for real implementation purpose
+- `appScripts` directory contains `test.gs` for Testing and `prod.js` for Implementation purpose
+- Website's code remains the except for the appScript url in the `main.js`

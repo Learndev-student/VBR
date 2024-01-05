@@ -2,16 +2,8 @@
 
 body{
 	color: #2d298b;
+	background: #f6eaff;
 	font-family: 'IBM Plex Sans', sans-serif;
-}
-
-#bg{
-	background: linear-gradient(#ffeafe,#f7f6ff);
-	position: fixed;
-	z-index: -1;
-	margin: -10px -1px -1px -10px;
-	width:100%;
-	height: 100%;
 }
 
 header{

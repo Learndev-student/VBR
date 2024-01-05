@@ -1,4 +1,7 @@
+//AppScript URL
 const URL = "https://script.google.com/macros/s/AKfycbxXYza4MZ2sbwMExQfWORuTC33HCRRSBRy6kiGV5R-1VuzhIFHVHDeqvNfqM0wqnFMw/exec";
+
+//Location to be used as Rooms
 const locations = {
 	"AB1":[
 		"Academic Block 1-GF-DARPAN",
@@ -69,7 +72,7 @@ const locations = {
 var rooms;
 var i;
 
-function createRooms(){
+function createBlocks(){
 	document.getElementById("content").innerHTML = "";
 	rooms = {};
 	i = 0;
@@ -84,39 +87,41 @@ function createRooms(){
 	}
 }
 
-function displayInfo(e){
+function showPopup(ev){
 	let box = document.createElement("div");
-	let popup =document.createElement("div");
+	let popup = document.createElement("div");
 	popup.id = "popup";
 	box.id = "box";
 	let offset_y = document.body.getBoundingClientRect().top-10;
 	popup.style['top'] = `${-offset_y}px`;
 	box.appendChild(popup);
-	box.onclick = (ev) =>{
+	box.onclick = (e) =>{
 		try{
-			document.body.removeChild(ev.target);
+			document.body.removeChild(e.target);
 			document.body.style['position'] = "static";
 			window.scrollTo(0,-offset_y);
 		}catch(E){}
 	}
-	popup.innerHTML = "<h4>"+((e.target.nodeName=="H4")?e.target:e.target.firstChild).innerHTML +"</h4><hr/>"+((e.target.nodeName=="H4")?e.target.parentElement:e.target).dataset.events;
+	popup.innerHTML = "<h4>"+((ev.target.nodeName=="H4")?ev.target:ev.target.firstChild).innerHTML +"</h4><hr/>"+((ev.target.nodeName=="H4")?ev.target.parentElement:ev.target).dataset.events;
 	document.body.style['position'] = "fixed";
 	document.body.style['top'] = offset_y+"px";
 	document.body.appendChild(box);
 }
+
 
 function createRoom(name){
 	let room = document.createElement("div");
 	let title = document.createElement("h4");
 	room.className = "room";
 	room.dataset.events = "<p>Available</p>";
-	room.onclick =(ev)=> displayInfo(ev);
+	room.onclick =(ev)=> showPopup(ev);
 	title.innerHTML = name;
 	rooms[name] = i;
 	room.appendChild(title);
 	i++;
 	return room;
 }
+
 function update(){
 	let start = document.getElementById("start");
 	let end = document.getElementById("end");
@@ -128,7 +133,7 @@ function update(){
 	sendRequest(query);
 }
 
-function showData(E){
+function insertData(E){
 	E.forEach(e=>{
 		if(e.location in rooms){
 			let room = document.getElementsByClassName("room")[rooms[e.location]];
@@ -145,8 +150,10 @@ function sendRequest(r){
 	fetch(URL+r).then(response=>{
 		response.json().then(e=>{
 			if(e.type=="data"){
-				createRooms();
-				showData(e.data);
+				createBlocks();
+				insertData(e.data);
+			}else{
+				console.log(e);
 			}
 		});
 	});
